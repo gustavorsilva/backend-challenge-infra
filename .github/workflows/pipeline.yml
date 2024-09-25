@@ -50,7 +50,7 @@ jobs:
 
       # Passo 8: Aplicar as mudanças
       - name: Terraform Apply
-        id: push apply
+        id: pushapply
         run: terraform apply -auto-approve tfplan
 
       # Passo 9: Destruir a infraestrutura
