@@ -6,7 +6,3 @@ terraform {
     }
  }
 }
-
-provider "kubernetes" {
-  config_path = "~/.kube/config"  # Caminho para o seu arquivo de configuração do Kubernetes
-}
