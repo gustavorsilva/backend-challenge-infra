@@ -1,0 +1,11 @@
+cluster_name    = "eks-backend-challenge"
+region          = "us-east-1"
+vpc_id          = "vpc-08859c634c5f2ef34"
+subnet_ids      = ["subnet-07183af139198b696", "subnet-01ac8ebabd53c88a9"]
+cluster_role_arn = "arn:aws:iam::119739005737:role/eksapigtw"
+node_role_arn    = "arn:aws:iam::119739005737:role/eksnodegtw"
+desired_capacity = 1
+max_size         = 2
+min_size         = 1
+instance_types   = ["t3.medium"]
+capacity_type = "SPOT"
