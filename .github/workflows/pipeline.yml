@@ -85,14 +85,10 @@ jobs:
             aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
         - name: Atualizar imagem for Kubernetes
-          env:
-            ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-            ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-            IMAGE_TAG: ${{ github.sha }}
           run: |
             aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
-            kubectl apply -f modules/efk-log/manifest/  
+            kubectl apply -f manifestekl/
 
         - name: Endereço Kibana
           run: |
