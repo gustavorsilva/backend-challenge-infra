@@ -2,8 +2,7 @@ name: Terraform Workflow
 
 on:
   push:
-    branches:
-      - main
+    branches: [ feature/* ]
     tags:
       - 'destroy-*'   # Executa destroy quando uma tag que começa com 'destroy-' é criada
   pull_request:
