@@ -50,10 +50,46 @@ jobs:
 
       # Passo 8: Aplicar as mudanças
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/feature/apply' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
 
       # Passo 9: Destruir a infraestrutura
       - name: Terraform Destroy
-        if: startsWith(github.ref, 'refs/tags/destroy-') || github.event_name == 'workflow_dispatch'
+        if: startsWith(github.ref, 'refs/tags/destroy') || github.event_name == 'workflow_dispatch'
         run: terraform destroy -auto-approve
+
+  deploy-to-kubernetes:
+      name: Deploy-To-Kubernetes
+      runs-on: ubuntu-latest
+      needs: terraform
+
+      steps:
+        - name: Checar o código
+          uses: actions/checkout@v3
+
+        - name: Install kubectl
+          uses: azure/setup-kubectl@v2.0
+          with:
+            version: 'v1.24.0' # default is latest stable
+          id: install
+
+        - name: Configurar credenciais AWS
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Atualizar kubeconfig
+          run: |
+            aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+        - name: Atualizar imagem for Kubernetes
+          run: |
+            aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+            kubectl apply -f manifestekl/
+
+        - name: Endereço Kibana
+          run: |
+            kubectl get service kibana-logging -n efklog
