@@ -58,3 +58,8 @@ resource "aws_eks_node_group" "this" {
 
   depends_on = [aws_eks_cluster.this]
 }
+
+# instalção do EKL (Elasticsearch, Kibana & Logstash)
+module "EKF" {
+  source = "./modules/efk-Log"
+}
