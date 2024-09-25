@@ -50,7 +50,7 @@ jobs:
 
       # Passo 8: Aplicar as mudanças
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/feature/apply' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
 
       # Passo 9: Destruir a infraestrutura
