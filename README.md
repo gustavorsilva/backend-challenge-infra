@@ -23,4 +23,4 @@ min_size         = 1 # Minimo de Maquinas
 instance_types   = ["t3.medium"] # Tipo de instancia
 capacity_type = "SPOT" # Instancia
 ```
-#
+##
