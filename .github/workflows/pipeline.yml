@@ -92,12 +92,8 @@ jobs:
           run: |
             aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
-            kubectl apply -f modules/efk-log/manifest 
-
-        - name: Endereço LoadBalancer
-          run: |
-            kubectl get service -n backendchallenge    
-
+            kubectl apply -f modules/efk-log/manifest  
+            
         - name: Endereço Kibana
           run: |
             kubectl get service kibana-logging -n efklog
